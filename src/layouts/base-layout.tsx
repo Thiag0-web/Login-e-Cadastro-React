@@ -3,6 +3,9 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
+import { Outlet } from "react-router-dom";
+
+import Autoplay from "embla-carousel-autoplay"
 
 const slideData = [
   {
@@ -22,15 +25,20 @@ const slideData = [
   },
 ];
 
-export default function baseLayout() {
+export default function BaseLayout() {
   return (
     <div className="flex min-h-screen w-full bg-[#15131D] text-white overflow-hidden">
-      <div className="w-1/2 relative">
+      <div className="hidden lg:block lg:w-1/2 relative">
         <h5 className="fixed z-1 top-12 left-12 text-2xl font-bold tracking-widest italic">
           Aventura
         </h5>
 
-        <Carousel opts={{ loop: true }}>
+        <Carousel plugins={[
+          Autoplay({
+            delay: 4000,
+            stopOnInteraction: false
+          }),
+        ]} opts={{ loop: true }}>
           <CarouselContent>
             {slideData.map((slide, index) => (
               <CarouselItem key={index} className="h-screen relative">
@@ -64,7 +72,7 @@ export default function baseLayout() {
         </Carousel>
       </div>
 
-      <div className="w-1/2">Formulário</div>
+      <Outlet />
     </div>
   );
 }
